@@ -4,7 +4,13 @@
 module Task1 where
 
 import Parser
+import Data.Char (isDigit)
+import Control.Applicative (Alternative(some, (<|>)))
+import ParserCombinators (char)
 
+
+satDigit :: Parser [Char]
+satDigit = some $ satisfy isDigit
 -- | Parses natural number (including zero)
 --
 -- Usage example:
@@ -21,8 +27,7 @@ import Parser
 -- Parsed 123 (Input 3 "abc")
 --
 nat :: Parser Integer
-nat = error "TODO: define nat"
-
+nat =  fmap read satDigit
 -- | Parses integer number
 --
 -- Usage example:
@@ -39,4 +44,4 @@ nat = error "TODO: define nat"
 -- Parsed 123 (Input 3 "abc")
 --
 int :: Parser Integer
-int = error "TODO: define int"
+int = fmap read $ (:) <$> char '-' <*> satDigit <|> satDigit
