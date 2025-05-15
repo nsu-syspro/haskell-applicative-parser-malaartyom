@@ -277,7 +277,7 @@ dotFormat ::= day "." month "." year
 hyphenFormat ::= day "-" month "-" year
 usFormat ::= monthName " " usDay " " year
 
-usDate ::= nonZeroDigit | "1" digit | "2" digit | "30" | "31"
+usDay ::= nonZeroDigit | "1" digit | "2" digit | "30" | "31"
 day ::= "0" nonZeroDigit | "1" digit | "2" digit | "30" | "31"
 month ::= "0" nonZeroDigit | "10" | "11" | "12"
 year ::= number
