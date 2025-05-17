@@ -61,6 +61,13 @@ spaces = void $ many (satisfy (== ' '))
 --
 choice :: (Foldable t, Alternative f) => t (f a) -> f a
 choice = asum
+
+
+
+-- | Parses one character that is in the given list
+oneOf :: [Char] -> Parser Char
+oneOf cs = satisfy (`elem` cs)
+
 -- Discover and implement more useful parser combinators below
 --
 -- - <https://hackage.haskell.org/package/parser-combinators-1.3.0/docs/Control-Applicative-Combinators.html>

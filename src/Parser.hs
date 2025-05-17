@@ -5,6 +5,7 @@
 {-# OPTIONS_GHC -Wno-incomplete-patterns #-}
 {-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
 {-# HLINT ignore "Use if" #-}
+{-# LANGUAGE InstanceSigs #-}
 -- The above pragma temporarily disables warnings about Parser constructor and runParser not being used
 
 module Parser
@@ -81,7 +82,13 @@ instance Alternative Parser where
                                               res@Parsed{}  -> res
                                               Failed err1   -> case g input of
                                                 Parsed v1 i1 -> Parsed v1 i1
-                                                Failed err2  -> Failed (nub (err1 ++ err2)) 
+                                                Failed err2  -> Failed (nub (err1 ++ err2))
+
+instance Monad Parser where
+  (>>=) :: Parser a -> (a -> Parser b) -> Parser b
+  Parser f >>= g = Parser $ \input -> case f input of
+    Parsed a rest -> runParser (g a) rest  
+    Failed err    -> Failed err
 
 -- | Parses single character satisfying given predicate
 --
